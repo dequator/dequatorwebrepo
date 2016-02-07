@@ -65,6 +65,6 @@ a img {
       </script>
 </head>
 <body>
-<?php include="Share.php"?>
+<?php include("Share.php");?>
 </body>
 </html>

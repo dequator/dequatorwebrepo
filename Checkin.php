@@ -166,6 +166,6 @@ a img {
 		 <input type="submit" value="Checkin"/>
 </form>
 </div>
-<?php include="Share.php"?>
+<?php include("Share.php");?>
 </body>
 </html>
