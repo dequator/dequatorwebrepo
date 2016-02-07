@@ -107,19 +107,28 @@ a img {
 		{
 			alert("start!");
 			navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-			if(!navigator.getUserMedia({video:true}, 
+			var cameStream = navigator.getUserMedia({video:true}, 
 			function(stream){
+				var video = document.getElementById('webcam');
+
+				if (window.URL) {
+					video.src = window.URL.createObjectURL(stream);
+				} else {
+					video.src = stream;
+				}
+
+				video.autoplay = true;
 			}, 
 			function(err){
          document.alert("The following error occurred: " + err.name);
-			})
-			){
-				alert("audio failed");
+			});
+			if(!cameStream)
+			{
+				alert("Camera failed");
 			}
 			else {
 				alert("ok");
 				}
-				document.write("ok");
 		}
 		
 		 function showDiv(divName, bShow)
@@ -145,11 +154,17 @@ a img {
 		 }		 
 		 function checkVoice()
 		 {
-			showDiv("voice", isChecked("Voice"));
+			 var isShowAudio = isChecked("Voice");
+			showDiv("voice", isShowAudio);
+			if(isShowAudio)
+				tryAudio();
 		 }	
 		 function checkPhoto()
 		 {
-			showDiv("photo", isChecked("Photo")); 
+			var isShowingPhoto = isChecked("Photo");
+			showDiv("photo", isShowingPhoto); 
+			if(isShowingPhoto)
+				tryCamera();
 		 }
 			
       </script>
@@ -162,7 +177,9 @@ a img {
 		 <input type="checkbox" id="Voice" onchange="checkVoice()" />Voice<BR>
 		 <div id="voice" align="left" style="width:270px;height:180px;display:none"> </div>
 		 <input type="checkbox" id="Photo" onchange="checkPhoto();display:none"/>Photo<BR>
-		 <div id="photo" style="width:270px;height:180px;display:none"></div>
+		 <div id="photo" style="width:270px;height:180px;display:none">
+		 <video id="webcam"></video>
+		 </div>
 		 <input type="submit" value="Checkin"/>
 </form>
 </div>
