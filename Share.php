@@ -1,6 +1,4 @@
 <section>
-<div align = "right">
-<font color="blue">
 <script language="javascript">
 function showTime()
 {
@@ -12,10 +10,15 @@ function showTime()
 	var hr = myDate.getHours();
 	var min = myDate.getMinutes();
 	var sec = myDate.getSeconds();
-	document.write("<small>Your Time("+visitTimeZone+"):" +year+"-"+month+"-"+day+" "+hr+":"+min+":"+sec + "</small>");
+	var clienttime = document.getElementById("clienttime")；
+	clienttime.value ="<small>Your Time("+visitTimeZone+"):" +year+"-"+month+"-"+day+" "+hr+":"+min+":"+sec + "</small>";
 }
 self.setInterval(showTime,1000);
 </script>
+<label id="clienttime" align="right">
+</label>
+<div align = "right">
+<font color="blue">
 <BR>
 <?php
 	date_default_timezone_set("Asia/Shanghai");
