@@ -203,7 +203,7 @@ if(!isset($_POST["records"]))
 			 </tr>			
 		</table>			 
 		 </div>
-		 <input type="hidden" name="records"/>
+		 <input type="hidden" name="records" id="records"/>
 		 <input type="submit" value="Checkin"/>
 </form>
 <?php
