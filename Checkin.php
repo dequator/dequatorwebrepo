@@ -37,7 +37,7 @@ a img {
 		 
 		 function showInBaiduCoordinates(point)
 		 {
-			var map = new BMap.Map("map");          // 鍒涘缓鍦板浘瀹炰緥   
+			var map = new BMap.Map("map");          // 创建地图实例   
 			map.centerAndZoom(point, 18);  
 		 }
 		 
@@ -155,13 +155,6 @@ a img {
 			if(isShowingPhoto)
 				tryCamera();
 		 }
-		 function submit()
-		 {
-					
-			//var canvas = document.getElementById("screenshot-canvas");
-			//canvas.DrawImage(video, 0, 0);
-			
-		 }
 		 function onClickPreviewButton()
 		 {
 			var video = document.getElementById('webcam');
@@ -174,23 +167,22 @@ a img {
 			ctx.strokeText("(C)kunit.net",0,canvas.height-border-10);
 			//var pic = ctx.getImageData(0,0, canvas.width, canvas.height);
 			var records = document.getElementById("records");
-			records.value[2] = canvas.toDataURL("image/png");
+			records.value = canvas.toDataURL("image/png");
 		 }
 		 function initilizeform()
 		 {
-			var records = document.getElementById("records");
-			records.value = new Array(3);
+			//var records = document.getElementById("records");
+			//records.value = new Array(3);
 		 }
       </script>
 </head>
 <body>
 <div align="center">
 <?php
-$records = $_POST["records"];
-if ($records == null)
+if(!isset($_POST["records"]))
 {	
 ?>	
-<form name="submitForm" method="post" onload="initilizeform();">
+<form name="submitForm" method="post" action="Checkin.php" onload="initilizeform();">
          <input type="checkbox" id="Location" onchange="checkLocation()"/>Location<BR>
 		 <div id = "location" align="left" style="width:270px;height:180px;display:none"> </div>
 		 <input type="checkbox" id="Voice" onchange="checkVoice()" />Voice<BR>
@@ -211,13 +203,13 @@ if ($records == null)
 			 </tr>			
 		</table>			 
 		 </div>
-		 <input type="hidden" id="records" />
-		 <input type="submit" value="Checkin" onclick="submit()"/>
+		 <input type="hidden" name="records"/>
+		 <input type="submit" value="Checkin"/>
 </form>
 <?php
 }
 else{
-	$screenshot = $records[2];
+	$screenshot = $_POST["records"];
 	$_SESSION['screenshot']= $screenshot;	
 ?>
 <img alt="php image 1" width="150" height="180" src="screenshot.php" />

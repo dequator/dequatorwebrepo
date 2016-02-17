@@ -1,4 +1,3 @@
-<?php session_start(); ?>
 <section>
 <script language="javascript">
 function showTime()
