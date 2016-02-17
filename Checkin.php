@@ -164,54 +164,67 @@ a img {
 		 }
 		 function onClickPreviewButton()
 		 {
-			var capBtn = document.getElementById('capture'); 
-			var toCapture = false;
-			if(capBtn.value == "Capture") 
-			{
-				capBtn.value = "Cancel";
-				toCapture = true;
-			}
-			else
-			{
-				capBtn.value = "Capture";
-				toCapture = false;
-			}
-			
 			var video = document.getElementById('webcam');
-			if(toCapture)
-			{
-				video.pause();				
-				
-				var canvas = document.getElementById('screenshot-canvas');
-				var ctx = canvas.getContext("2d");
-				var border = 2;
-				ctx.drawImage(video, border, border, canvas.width-border, canvas.height-border);
-				ctx.font="10px Georgia";
-				ctx.strokeText("(C)kunit.net",canvas.width-border-100,canvas.height-border-20);	
-			}
-			else // to view video
-			{
-				video.play();				
-			}
+			var canvas = document.getElementById('screenshot-canvas');
+			var ctx = canvas.getContext("2d");
+			var border = 2;			
+			ctx.drawImage(video, border, border, canvas.width-border, canvas.height-border);
+			ctx.font="10px Georgia";
+			ctx.strokeStyle="#ff0000";
+			ctx.strokeText("(C)kunit.net",0,canvas.height-border-10);
+			//var pic = ctx.getImageData(0,0, canvas.width, canvas.height);
+			var records = document.getElementById("records");
+			records.value[2] = canvas.toDataURL("image/png");
+		 }
+		 function initilizeform()
+		 {
+			var records = document.getElementById("records");
+			records.value = new Array(3);
 		 }
       </script>
 </head>
 <body>
-<div>
-<form name="submitForm" method="post">
+<div align="center">
+<?php
+$records = $_POST["records"];
+if ($records == null)
+{	
+?>	
+<form name="submitForm" method="post" onload="initilizeform();">
          <input type="checkbox" id="Location" onchange="checkLocation()"/>Location<BR>
 		 <div id = "location" align="left" style="width:270px;height:180px;display:none"> </div>
 		 <input type="checkbox" id="Voice" onchange="checkVoice()" />Voice<BR>
 		 <div id="voice" align="left" style="width:270px;height:180px;display:none"> </div>
 		 <input type="checkbox" id="Photo" onchange="checkPhoto()"/>Photo<BR>
 		 <div id="photo" style="width:180px;height:500px;display:none">			 
-			 <video id="webcam" style="width:150px;height:180px" ></video>			 
-			 <canvas id="screenshot-canvas" style="width:150px;height:180px" ></canvas>			 
-			 <button id="capture" value="Capture" onclick="onClickPreviewButton()" />
+		 <table border="0">
+			<tr>
+			<td>
+			 <video id="webcam" width="150" height="180"></video>			 
+			 </td>
+			 </tr>
+			<tr>
+			<td><canvas id="screenshot-canvas" width="150" height="180" style="border:1px solid #d3d3d3;background:#00ff00;" ></canvas></td>
+			</tr>
+			 <tr>
+			 <td><input type="button" id="capture" value="Capture" onclick="onClickPreviewButton()" /></td>
+			 </tr>			
+		</table>			 
 		 </div>
-		 <input type="hidden" name="records" />
+		 <input type="hidden" id="records" />
 		 <input type="submit" value="Checkin" onclick="submit()"/>
 </form>
+<?php
+}
+else{
+	$screenshot = $records[2];
+	$_SESSION['screenshot']= $screenshot;	
+?>
+<img alt="php image 1" width="150" height="180" src="screenshot.php" />
+<img alt="php image 2" width="150" height="180" src="<?php echo $screenshot; ?>" />
+<?php
+}
+?>
 </div>
 <?php include("Share.php");?>
 </body>

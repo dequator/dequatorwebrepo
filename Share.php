@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <section>
 <script language="javascript">
 function showTime()
@@ -10,16 +11,15 @@ function showTime()
 	var hr = myDate.getHours();
 	var min = myDate.getMinutes();
 	var sec = myDate.getSeconds();
-	var clienttime = document.getElementById("clienttime")；
-	clienttime.value ="<small>Your Time("+visitTimeZone+"):" +year+"-"+month+"-"+day+" "+hr+":"+min+":"+sec + "</small>";
+	var clienttime = document.getElementById("clienttime");
+	clienttime.innerHTML ="<small>Your Time("+visitTimeZone+"):" +year+"-"+month+"-"+day+" "+hr+":"+min+":"+sec + "</small>";
 }
 self.setInterval(showTime,1000);
 </script>
-<label id="clienttime" align="right">
-</label>
-<div align = "right">
 <font color="blue">
-<BR>
+<div id="clienttime" align="right">
+</div>
+<div align = "right">
 <?php
 	date_default_timezone_set("Asia/Shanghai");
 	$currdate = date("Y-n-j G:i:s");
