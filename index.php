@@ -8,7 +8,7 @@
 </head>
 <body>
 <div id="container" align="center">
-<font size=36>Welcome to this unknown space. <BR>
+<font color="brown">Welcome to this unknown space. <BR>
 You can write to <a href="mailto:guitao.ding@yahoo.com">Guitao DING</a> for any of your curiosity. <BR>
 </font>
 </div>

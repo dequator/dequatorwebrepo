@@ -96,11 +96,6 @@ a img {
 			{
 				document.alert("The following error occurred: " + err.name);
 			});
-			
-			if(!media)
-			{
-				alert("Audio failed");
-			}
 		}
 		
 		function tryCamera()
@@ -110,6 +105,7 @@ a img {
 			var cameStream = navigator.getUserMedia({video:true}, 
 			function(stream){
 				var video = document.getElementById('webcam');
+				
 
 				if (window.URL) {
 					video.src = window.URL.createObjectURL(stream);
@@ -120,15 +116,8 @@ a img {
 				video.autoplay = true;
 			}, 
 			function(err){
-         document.alert("The following error occurred: " + err.name);
+				document.alert("The following error occurred: " + err.name);
 			});
-			if(!cameStream)
-			{
-				alert("Camera failed");
-			}
-			else {
-				alert("ok");
-				}
 		}
 		
 		 function showDiv(divName, bShow)
@@ -166,21 +155,62 @@ a img {
 			if(isShowingPhoto)
 				tryCamera();
 		 }
+		 function submit()
+		 {
+					
+			//var canvas = document.getElementById("screenshot-canvas");
+			//canvas.DrawImage(video, 0, 0);
 			
+		 }
+		 function onClickPreviewButton()
+		 {
+			var capBtn = document.getElementById('capture'); 
+			var toCapture = false;
+			if(capBtn.value == "Capture") 
+			{
+				capBtn.value = "Cancel";
+				toCapture = true;
+			}
+			else
+			{
+				capBtn.value = "Capture";
+				toCapture = false;
+			}
+			
+			var video = document.getElementById('webcam');
+			if(toCapture)
+			{
+				video.pause();				
+				
+				var canvas = document.getElementById('screenshot-canvas');
+				var ctx = canvas.getContext("2d");
+				var border = 2;
+				ctx.drawImage(video, border, border, canvas.width-border, canvas.height-border);
+				ctx.font="10px Georgia";
+				ctx.strokeText("(C)kunit.net",canvas.width-border-100,canvas.height-border-20);	
+			}
+			else // to view video
+			{
+				video.play();				
+			}
+		 }
       </script>
 </head>
 <body>
 <div>
-<form name="submitForm">
+<form name="submitForm" method="post">
          <input type="checkbox" id="Location" onchange="checkLocation()"/>Location<BR>
 		 <div id = "location" align="left" style="width:270px;height:180px;display:none"> </div>
 		 <input type="checkbox" id="Voice" onchange="checkVoice()" />Voice<BR>
 		 <div id="voice" align="left" style="width:270px;height:180px;display:none"> </div>
-		 <input type="checkbox" id="Photo" onchange="checkPhoto();display:none"/>Photo<BR>
-		 <div id="photo" style="width:270px;height:180px;display:none">
-		 <video id="webcam"></video>
+		 <input type="checkbox" id="Photo" onchange="checkPhoto()"/>Photo<BR>
+		 <div id="photo" style="width:180px;height:500px;display:none">			 
+			 <video id="webcam" style="width:150px;height:180px" ></video>			 
+			 <canvas id="screenshot-canvas" style="width:150px;height:180px" ></canvas>			 
+			 <button id="capture" value="Capture" onclick="onClickPreviewButton()" />
 		 </div>
-		 <input type="submit" value="Checkin"/>
+		 <input type="hidden" name="records" />
+		 <input type="submit" value="Checkin" onclick="submit()"/>
 </form>
 </div>
 <?php include("Share.php");?>
