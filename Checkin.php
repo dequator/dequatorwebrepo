@@ -9,12 +9,6 @@
 <script type="text/javascript" src="http://api.map.baidu.com/api?&v=1.3"> </script>
 <script type="text/javascript" src="http://developer.baidu.com/map/jsdemo/demo/convertor.js"></script>
 <script type="text/javascript">	 
-         function showLocation(position) {
-			var coords = position.coords;  
-            var latitude = position.coords.latitude;
-            var longitude = position.coords.longitude;
-            alert("Latitude : " + latitude + " Longitude: " + longitude);
-         }
 
          function errorHandler(err) {
             if(err.code == 1) {
@@ -27,15 +21,35 @@
          }
 			
          function getLocation(){
+			var location = {"latitude":0.0, "longitude":0.0};
 
             if(navigator.geolocation){
                // timeout at 60000 milliseconds (60 seconds)
                var options = {timeout:60000};
-               navigator.geolocation.getCurrentPosition(showLocation, errorHandler, options);
-            }
-            
+               navigator.geolocation.getCurrentPosition(
+				function(position) {
+					var coords = position.coords;  
+					location.latitude = coords.latitude;
+					location.longitude = coords.longitude;
+					
+					checkinrecords(location);
+					}, 
+				function(err) {
+					if(err.code == 1) {
+					 alert("Error: Access is denied!");
+					}
+					
+					else if( err.code == 2) {
+					 alert("Error: Position is unavailable!");
+					}
+					checkinrecords(location);
+					}, 
+					options);
+					alert("Trying for 60 seconds to get location...");
+            }            
             else{
                alert("Sorry, browser does not support geolocation!");
+			   checkinrecords(location);
             }
          }
 		
@@ -83,13 +97,7 @@
 			showDiv("photo", isShowingPhoto); 
 			if(isShowingPhoto)
 				tryCamera();
-		 }
-		 
-		 function submit()
-		 {
-			 submitForm.submit();
-		 }
-		 
+		 }		 
 		 function onClickPreviewButton()
 		 {
 			var video = document.getElementById('webcam');
@@ -99,19 +107,24 @@
 			ctx.drawImage(video, border, border, canvas.width-border, canvas.height-border);
 			ctx.font="10px Georgia";
 			ctx.strokeStyle="#ff0000";
-			ctx.strokeText("(C)kunit.net",0,canvas.height-border-10);
-			//var pic = ctx.getImageData(0,0, canvas.width, canvas.height);
+			ctx.strokeText("(C)kunit.net",0,canvas.height-border-10);			
+		 }
+		 
+		function checkinrecords(location)
+		 {
 			var records = document.getElementById("records");
+			var canvas = document.getElementById('screenshot-canvas');			
 			var jsonRecords = 
 			{
 				"photo":canvas.toDataURL("image/png"),
 				"location":
 				{
-					"latitude": 0,
-					"longitude": 0
+					"latitude": location.latitude,
+					"longitude": location.longitude
 				}
 			};
 			records.value = JSON.stringify(jsonRecords);
+			document.submitForm.submit();
 		 }
       </script>
 </head>
@@ -123,23 +136,23 @@ if(!isset($_POST["records"]))
 ?>	
 <form name="submitForm" method="post" action="Checkin.php">         
 		 <input type="checkbox" id="Photo" onchange="checkPhoto()"/>Photo<BR>
-		 <div id="photo" style="width:180px;height:500px;display:none">			 
+		 <div id="photo" style="width:250px;height:400px;display:none">			 
 		 <table border="0">
 			<tr>
 			<td>
-			 <video id="webcam" width="150" height="180"></video>			 
+			 <video id="webcam" width="240" height="180" style="border:1px solid #d3d3d3;background:#eeeeee;"></video>			 
 			 </td>
 			 </tr>
-			<tr>
-			<td><canvas id="screenshot-canvas" width="150" height="180" style="border:1px solid #d3d3d3;background:#00ff00;" ></canvas></td>
-			</tr>
 			 <tr>
-			 <td><input type="button" id="capture" value="Capture" onclick="onClickPreviewButton()" /></td>
+			 <td align="center"><input type="button" id="capture" value="Capture" onclick="onClickPreviewButton()" /></td>
 			 </tr>			
+			<tr>
+			<td><canvas id="screenshot-canvas" width="240" height="180" style="border:1px solid #d3d3d3;background:#eeeeee;" ></canvas></td>
+			</tr>			 
 		</table>			 
 		 </div>
 		 <input type="hidden" name="records" id="records"/>		 
-		 <input type="submit" value="Checkin" onclick="submit()"/>
+		 <input type="button" value="Checkin" onclick="getLocation()"/>
 </form>
 <?php
 }
@@ -147,10 +160,27 @@ else{
 	$recordJSON = $_POST["records"];	
 	$records = json_decode($recordJSON);
 	$screenshot = $records->{"photo"};
+	$location = $records->{"location"};	
 	$_SESSION['screenshot']= $screenshot;	
 ?>
-<img alt="php image 1" width="150" height="180" src="screenshot.php" />
-<img alt="php image 2" width="150" height="180" src="<?php echo $screenshot; ?>" />
+<table border = 0>
+<tr>
+  <td><img alt="image generated from separate PHP" width="150" height="180" src="screenshot.php" />
+  </td>
+  <td>
+  <img alt="image generated from JS (returned from PHP)" width="150" height="180" src="<?php echo $screenshot; ?>" />
+  </td>
+</tr>
+<tr>
+	<td>
+	<div align="center">
+	<?php
+	echo "Location:".$location->{"longitude"}."(longitude),".$location->{"latitude"}."(latitude)";
+	?>
+	</div>
+	</td>
+</tr>
+<table>
 <?php
 }
 ?>
