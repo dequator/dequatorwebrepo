@@ -3,12 +3,17 @@ header("Content-type: image/png");
 
 if(isset($_SESSION['screenshot']))
 {	
-	echo $_SESSION['screenshot'];
+	$screenshot = $_SESSION['screenshot'];
+	preg_match('/^(data:\s*image\/(\w+);base64,)/', $screenshot, $result);	
+	$imgContent = str_replace($result[0], '', $screenshot);
+	$imgContent = str_replace(' ' , '+', $imgContent);
+	//echo $imgContent;
+	echo base64_decode($imgContent);
 }
 else
 {
 	//创建图像
-	$im = @imagecreate(200, 50) or die("创建图像资源失败");
+	$im = @imagecreate(200, 50);
 
 	//图片背景颜色
 	$bg = imagecolorallocate($im, 255, 255, 255);
