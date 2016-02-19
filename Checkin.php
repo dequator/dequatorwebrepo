@@ -142,7 +142,7 @@ getLocation();
 		 <table border="0">
 			<tr>
 			<td>
-			 <video id="webcam" width="270" height="180" style="border:1px solid #d3d3d3;background:#eeeeee;"></video>			 
+			 <video id="webcam" width="240" height="180" style="border:1px solid #d3d3d3;background:#eeeeee;"></video>			 
 			 </td>
 			 </tr>
 			 <tr>
@@ -166,10 +166,12 @@ else{
 	$screenshot = $records->{"photo"};
 	$location = $records->{"location"};	
 	$text = $records->{"text"};
-
-require_once("library.php");
-	$Records = new Records($location, $screenshot, $text);
-	$_SESSION['Records']= serialize($Records);	
+	
+	date_default_timezone_set("Asia/Shanghai");
+	$currdate = date("Y-n-j G:i:s");
+	require_once("library.php");
+	$Records = new Records($location, $screenshot, $text, $currdate);
+	$_SESSION['Records']= serialize($Records);
 ?>
 <table border = 0>
 <tr>
@@ -182,11 +184,13 @@ require_once("library.php");
 <tr>
 <td>
 <font color="purple">
+<i>
 <div align="center">
 <?php
-	echo $text; 
+	echo "\"".$text."\""; 
 ?>
 </div>
+</i>
 </font>
 </td>
 </tr>

@@ -18,9 +18,9 @@ function showTime()
 self.setInterval(showTime,1000);
 </script>
 <font color="blue">
-<div id="clienttime" align="center"  style="height:10px;width:auto"">
+<div id="clienttime" align="center"  style="height:14px;width:auto"">
 </div>
-<div align = "center" style="height:10px,width:auto">
+<div align = "center" style="height:14px,width:auto">
 <?php
 	date_default_timezone_set("Asia/Shanghai");
 	$currdate = date("Y-n-j G:i:s");

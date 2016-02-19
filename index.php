@@ -12,6 +12,7 @@
 <font color="brown">Welcome to this unknown space. <BR>
 You can write to <a href="mailto:guitao.ding@yahoo.com">Guitao DING</a> for any of your curiosity. <BR>
 </font>
+<img height="120" width="120" align="center" src="www_kunit_net_QR_Code.png" />
 </div>
 <?php include("Share.php");?>
 </body>
