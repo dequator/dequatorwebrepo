@@ -10,10 +10,10 @@ if(isset($_SESSION['Records']))
 else
 {
 	//创建图像
-	$im = @imagecreate(200, 50);
+	$im = imagecreate(200, 50);
 
 	//图片背景颜色
-	$bg = imagecolorallocate($im, 255, 255, 255);
+	$bg = imagecolorallocate($im, 250, 250, 250);
 
 	//文字颜色
 	$text_color = imagecolorallocate($im, 0, 0, 255);

@@ -9,7 +9,7 @@
 <script type="text/javascript" src="http://api.map.baidu.com/api?&v=1.3"> </script>
 <script type="text/javascript" src="http://developer.baidu.com/map/jsdemo/demo/convertor.js"></script>
 <script type="text/javascript">	 
-	var window.phonepos = {"latitude":0.0, "longitude":0.0};
+	var phonepos = {"latitude":0.0, "longitude":0.0};
          function errorHandler(err) {
             if(err.code == 1) {
                alert("Error: Access is denied!");
@@ -133,10 +133,11 @@ if(!isset($_POST["records"]))
 <script>
 getLocation();
 </script>
+<h4>Type something and record to the server!</h4>
 <form name="submitForm" method="post" action="Checkin.php" >         
-		<textarea id="textlog" cols="40" rows="3"></textarea><BR>
-		 <div align="center"><input type="checkbox" id="Photo" onchange="checkPhoto()"/>Photo</div>
-		 <HR>		 
+		<textarea id="textlog" cols="60" rows="4"></textarea><BR>
+		 <div align="center"><input type="checkbox" id="Photo" onchange="checkPhoto()"/>Include Photo</div>
+		 
 		 <div id="photo" style="width:250px;height:400px;display:none">			 
 		 <table border="0">
 			<tr>
@@ -152,8 +153,10 @@ getLocation();
 			</tr>			 
 		</table>			 
 		 </div>
-		 <input type="hidden" name="records" id="records"/>		 
-		 <input type="button" value="Checkin" onclick="checkinrecords()"/>
+		 <input type="hidden" name="records" id="records"/>	
+		 <div style="height:40px"></div>
+		
+		 <input type="button" value="Checkin" onclick="checkinrecords()" style="color:#ff0000"/>
 </form>
 <?php
 }

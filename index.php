@@ -7,7 +7,7 @@
 <style type="text/css">
 </style>
 </head>
-<body>
+<body style="width:auto">
 <div id="container" align="center">
 <font color="brown">Welcome to this unknown space. <BR>
 You can write to <a href="mailto:guitao.ding@yahoo.com">Guitao DING</a> for any of your curiosity. <BR>
