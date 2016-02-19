@@ -36,5 +36,4 @@ self.setInterval(showTime,1000);
 <a href="View.php">Footpath</a>
 </nav>
 </font>
-<img height="90" width="90" align="right" src="www_kunit_net_QR_Code.png" />
 </section>
