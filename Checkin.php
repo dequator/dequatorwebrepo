@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>Welcome to talk to this technical guy</title>
+<title>Welcome to talk to this guy</title>
 <style type="text/css">
 </style>
 <!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script> -->
 <script type="text/javascript" src="http://api.map.baidu.com/api?&v=1.3"> </script>
 <script type="text/javascript" src="http://developer.baidu.com/map/jsdemo/demo/convertor.js"></script>
 <script type="text/javascript">	 
-
+	var window.phonepos = {"latitude":0.0, "longitude":0.0};
          function errorHandler(err) {
             if(err.code == 1) {
                alert("Error: Access is denied!");
@@ -20,8 +20,7 @@
             }
          }
 			
-         function getLocation(){
-			var location = {"latitude":0.0, "longitude":0.0};
+         function getLocation(){			
 
             if(navigator.geolocation){
                // timeout at 60000 milliseconds (60 seconds)
@@ -29,10 +28,8 @@
                navigator.geolocation.getCurrentPosition(
 				function(position) {
 					var coords = position.coords;  
-					location.latitude = coords.latitude;
-					location.longitude = coords.longitude;
-					
-					checkinrecords(location);
+					phonepos.latitude = coords.latitude;
+					phonepos.longitude = coords.longitude;
 					}, 
 				function(err) {
 					if(err.code == 1) {
@@ -41,15 +38,12 @@
 					
 					else if( err.code == 2) {
 					 alert("Error: Position is unavailable!");
-					}
-					checkinrecords(location);
+					}					
 					}, 
-					options);
-					alert("Trying for 60 seconds to get location...");
+					options);					
             }            
             else{
-               alert("Sorry, browser does not support geolocation!");
-			   checkinrecords(location);
+               //alert("Sorry, browser does not support geolocation!");			   
             }
          }
 		
@@ -106,21 +100,23 @@
 			var border = 2;			
 			ctx.drawImage(video, border, border, canvas.width-border, canvas.height-border);
 			ctx.font="10px Georgia";
-			ctx.strokeStyle="#ff0000";
+			ctx.strokeStyle="#ff0000";			
 			ctx.strokeText("(C)kunit.net",0,canvas.height-border-10);			
 		 }
-		 
-		function checkinrecords(location)
+
+		function checkinrecords()
 		 {
 			var records = document.getElementById("records");
 			var canvas = document.getElementById('screenshot-canvas');			
+			var text = document.getElementById('textlog');			
 			var jsonRecords = 
 			{
+				"text":text.value,
 				"photo":canvas.toDataURL("image/png"),
 				"location":
 				{
-					"latitude": location.latitude,
-					"longitude": location.longitude
+					"latitude": phonepos.latitude,
+					"longitude": phonepos.longitude
 				}
 			};
 			records.value = JSON.stringify(jsonRecords);
@@ -133,14 +129,19 @@
 <?php
 if(!isset($_POST["records"]))
 {	
-?>	
-<form name="submitForm" method="post" action="Checkin.php">         
-		 <input type="checkbox" id="Photo" onchange="checkPhoto()"/>Photo<BR>
+?>
+<script>
+getLocation();
+</script>
+<form name="submitForm" method="post" action="Checkin.php" >         
+		<textarea id="textlog" cols="40" rows="3"></textarea><BR>
+		 <div align="center"><input type="checkbox" id="Photo" onchange="checkPhoto()"/>Photo</div>
+		 <HR>		 
 		 <div id="photo" style="width:250px;height:400px;display:none">			 
 		 <table border="0">
 			<tr>
 			<td>
-			 <video id="webcam" width="240" height="180" style="border:1px solid #d3d3d3;background:#eeeeee;"></video>			 
+			 <video id="webcam" width="270" height="180" style="border:1px solid #d3d3d3;background:#eeeeee;"></video>			 
 			 </td>
 			 </tr>
 			 <tr>
@@ -152,7 +153,7 @@ if(!isset($_POST["records"]))
 		</table>			 
 		 </div>
 		 <input type="hidden" name="records" id="records"/>		 
-		 <input type="button" value="Checkin" onclick="getLocation()"/>
+		 <input type="button" value="Checkin" onclick="checkinrecords()"/>
 </form>
 <?php
 }
@@ -161,7 +162,11 @@ else{
 	$records = json_decode($recordJSON);
 	$screenshot = $records->{"photo"};
 	$location = $records->{"location"};	
-	$_SESSION['screenshot']= $screenshot;	
+	$text = $records->{"text"};
+
+require_once("library.php");
+	$Records = new Records($location, $screenshot, $text);
+	$_SESSION['Records']= serialize($Records);	
 ?>
 <table border = 0>
 <tr>
@@ -172,12 +177,25 @@ else{
   </td>
 </tr>
 <tr>
+<td>
+<font color="purple">
+<div align="center">
+<?php
+	echo $text; 
+?>
+</div>
+</font>
+</td>
+</tr>
+<tr>
 	<td>
+	<font color="gey">
 	<div align="center">
 	<?php
 	echo "Location:".$location->{"longitude"}."(longitude),".$location->{"latitude"}."(latitude)";
 	?>
 	</div>
+	</font>
 	</td>
 </tr>
 <table>

@@ -16,9 +16,9 @@ function showTime()
 self.setInterval(showTime,1000);
 </script>
 <font color="blue">
-<div id="clienttime" align="right">
+<div id="clienttime" align="center">
 </div>
-<div align = "right">
+<div align = "center">
 <?php
 	date_default_timezone_set("Asia/Shanghai");
 	$currdate = date("Y-n-j G:i:s");
@@ -34,5 +34,5 @@ self.setInterval(showTime,1000);
 <a href="View.php">View Footpath</a>
 </nav>
 </font>
-<img width=90 height=90 align=right src="www_kunit_net_QR_Code.png" />
+<img width=90 height=90 align=center src="www_kunit_net_QR_Code.png" />
 </section>

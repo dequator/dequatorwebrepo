@@ -1,14 +1,11 @@
 <?php
 header("Content-type: image/png");
+require_once("library.php");
 
-if(isset($_SESSION['screenshot']))
+if(isset($_SESSION['Records']))
 {	
-	$screenshot = $_SESSION['screenshot'];
-	preg_match('/^(data:\s*image\/(\w+);base64,)/', $screenshot, $result);	
-	$imgContent = str_replace($result[0], '', $screenshot);
-	$imgContent = str_replace(' ' , '+', $imgContent);
-	//echo $imgContent;
-	echo base64_decode($imgContent);
+	$Records = unserialize($_SESSION['Records']);
+	echo $Records->getPhoto();
 }
 else
 {
