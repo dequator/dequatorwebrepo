@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>Welcome to talk to this technical guy</title>
+<title>Welcome to talk to this guy</title>
 <style type="text/css">
 <!--
 body {
@@ -22,9 +22,6 @@ a img {
 }
 -->
 </style>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script> 
-<script type="text/javascript" src="http://api.map.baidu.com/api?&v=1.3"> </script>
-<script type="text/javascript" src="http://developer.baidu.com/map/jsdemo/demo/convertor.js"></script>
 <script type="text/javascript">
 		 function showBaiduMapLocation(position)
 		 {
@@ -32,8 +29,7 @@ a img {
             var longitude = position.coords.longitude;
 			var gpsPoint = new BMap.Point(longitude, latitude);
 			BMap.Convertor.translate(gpsPoint, 0, showInBaiduCoordinates);
-		 }
-		 
+		 }		 
 		 function showInBaiduCoordinates(point)
 		 {
 			var map = new BMap.Map("map");          // 创建地图实例   
@@ -47,24 +43,11 @@ a img {
             alert("Latitude : " + latitude + " Longitude: " + longitude);
 			
 			showBaiduMapLocation(position);
-         }       
-		 
-		 function gotStream(stream) {
-		   window.AudioContext = window.AudioContext || window.webkitAudioContext;
-		   var audioContext = new AudioContext();
-		   document.write("ok 1");
-		   // Create an AudioNode from the stream
-		   var mediaStreamSource = audioContext.createMediaStreamSource(stream);
-		   
-		   // Connect it to destination to hear yourself
-		   // or any other node for processing!
-		   mediaStreamSource.connect(audioContext.destination);
-		   document.write("ok 2");
-			}	
-			
+         }
       </script>
 </head>
 <body>
+<div align="center">UNDER CONSTRUCTION</div>
 <?php include("Share.php");?>
 </body>
 </html>
