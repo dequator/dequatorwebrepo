@@ -171,6 +171,7 @@ else{
 	$currdate = date("Y-n-j G:i:s");
 	require_once("library.php");
 	$Records = new Records($location, $screenshot, $text, $currdate);
+	$successfulStored = RecordsStore::store($Records);
 	$_SESSION['Records']= serialize($Records);
 ?>
 <table border = 0>
@@ -206,6 +207,14 @@ else{
 	</td>
 </tr>
 <table>
+<?php
+if($successfulStored)
+{
+	?>
+	<div align="center">Your mood is successfully recorded :-)</div>
+	<?php	
+}
+?>
 <?php
 }
 ?>
