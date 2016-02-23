@@ -176,10 +176,7 @@ else{
 ?>
 <table border = 0>
 <tr>
-  <td><img alt="image generated from separate PHP" width="150" height="180" src="screenshot.php" />
-  </td>
-  <td>
-  <img alt="image generated from JS (returned from PHP)" width="150" height="180" src="<?php echo $screenshot; ?>" />
+  <td><img alt="image generated from separate PHP" width="200" height="240" src="screenshot.php" />
   </td>
 </tr>
 <tr>

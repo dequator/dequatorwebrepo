@@ -47,7 +47,50 @@ a img {
       </script>
 </head>
 <body>
-<div align="center">UNDER CONSTRUCTION</div>
+<div align="center">YOUR RECENT (5) PORTRAITS</div>
+<?php
+require_once("library.php");	
+$records = RecordsStore::retrieve();
+foreach($records as $key => $record)
+{  
+	?>
+	<HR>
+	<table border = 0 align="center">
+	<tr>  
+	  <td>
+	  <img alt="image generated from JS (returned from PHP)" width="150" height="180" src="<?php echo $record->getPhotoBASE64();?>" />
+	  </td>
+	</tr>
+	<tr>
+	<td>
+	<font color="purple">
+	<i>
+	<div align="center">
+	<?php
+		echo "\"".$record->text."\""; 
+	?>
+	</div>
+	</i>
+	</font>
+	</td>
+	</tr>
+	<tr>
+		<td>
+		<font color="gey">
+		<div align="center">
+		<?php
+		$location = $record->getLocation();
+		//print_r($location);
+		echo "Location:".$location["longitude"]."(longitude),".$location["latitude"]."(latitude)";
+		?>
+		</div>
+		</font>
+		</td>
+	</tr>
+	<table>
+	<?php
+}
+?>
 <?php include("Share.php");?>
 </body>
 </html>

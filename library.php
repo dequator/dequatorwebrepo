@@ -125,8 +125,8 @@ class RecordsStore
 				'screenshot' => ['S'=> $record->screenshot],
 				'location' => ['M'=>
 								[
-								'longitude' => ['N'=> (string)($record->location->{'longitude'})],
-								'latitude' => ['N'=> (string)($record->location->{'latitude'})]
+								'longitude' => ['N' => (string)($record->location->{'longitude'})],
+								'latitude' => ['N' => (string)($record->location->{'latitude'})]
 								]
 							]			
 				]];
@@ -136,6 +136,39 @@ class RecordsStore
 			$successful = true;
 		}
 		return $successful;
+	}
+	
+	public static function retrieve($num_from_last = 5)
+	{
+		$rtnRecords= array();
+		if(self::createTable())
+		{
+			$request = 
+			['TableName' => self::$tableName,
+			'Select' => 'ALL_ATTRIBUTES',
+			'Limit' => $num_from_last];
+			$response = self::$dynamodb->scan($request);
+			$SeqNo = 0;
+			foreach ($response['Items'] as $key => $value) {
+				//print_r($value);
+				//echo("<BR>++++++<BR>");
+				$rtnRecords[$SeqNo] = new Records
+				(
+					// json_encode(
+					[
+					'longitude' => $value["location"]["M"]["longitude"]["N"], 
+					'latitude' => $value["location"]["M"]["latitude"]["N"]
+					]
+					//)
+					,
+					$value["screenshot"]["S"],
+					$value["comment"]["S"],
+					$value["shtime"]["S"]
+				);
+				$SeqNo ++;
+			}
+		}
+		return $rtnRecords;
 	}
 };
 ?>
