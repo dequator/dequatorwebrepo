@@ -56,7 +56,7 @@ foreach($records as $key => $record)
 	?>
 	<HR>
 	<table border = 0 align="center">
-	<tr>  
+	<tr align="center">  
 	  <td>
 	  <img alt="image generated from JS (returned from PHP)" width="150" height="180" src="<?php echo $record->getPhotoBASE64();?>" />
 	  </td>
