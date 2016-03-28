@@ -1,8 +1,8 @@
 <?php
 if(isset($_GET["CVVer"]))
 {
-	$resumefile_en = "guitao ding for software engineer.pdf";
-	$resumefile_cn = "guitao ding for software engineer(cn).pdf";
+	$resumefile_en = "guitao ding for software.pdf";
+	$resumefile_cn = "guitao ding for software(cn).pdf";
 	header('content-type: application/pdf');
 	$ver = $_GET["CVVer"];
 	$fileName = $resumefile_en;
